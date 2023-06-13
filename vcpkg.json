@@ -1,0 +1,8 @@
+{
+    "name": "tai",
+    "version-string": "latest",
+  "dependencies": [
+    "boost",
+    "ms-gsl"
+  ]
+}
