@@ -13,14 +13,18 @@
 /// greatest element. @arg A node of a min level contains the smallest element
 /// in its subtree and a node on a max level is greater than all its ancestors.
 
+/// @cond
 module;
+/// @endcond
 
 // C++ Standard Library.
 #include <cmath>
 #include <functional>
 #include <iterator>
 
+/// @cond
 export module order_statistics:minmax_heaps;
+/// @endcond
 
 namespace order_statistics {
 
@@ -62,7 +66,7 @@ bool is_grandchild(RandomIt first, RandomIt it, RandomIt it2)
   return parent(first, parent(first, it)) == it2;
 }
 
-/// @brief Checks if a predicate @pred holds for all child nodes of @p it in the
+/// @brief Checks if a predicate @c pred holds for all child nodes of @p it in the
 /// min-max heap [@c first, @c last).
 template<typename RandomIt, typename Predicate>
 bool for_all_children(RandomIt  first,
