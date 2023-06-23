@@ -1,8 +1,7 @@
 {
-    "name": "tai",
-    "version-string": "latest",
+  "name": "order-statistics",
+  "version-string": "latest",
   "dependencies": [
-    "boost",
-    "ms-gsl"
+    "boost"
   ]
 }
