@@ -63,24 +63,80 @@ void pop_order_statistics_tree(RandomIt1 first,
 {
 }
 
-template<typename RandomIt>
+template<typename RandomIt, typename Compare>
+void push_order_statistics_tree_impl(
+  typename std::iterator_traits<RandomIt>::value_type it,
+  typename std::iterator_traits<RandomIt>::value_type first,
+  typename std::iterator_traits<RandomIt>::value_type last,
+  RandomIt                                            ranks_first,
+  RandomIt                                            ranks_last,
+  Compare                                             comp)
+{
+
+}
+
+template<typename RandomIt, typename Compare>
+void push_order_statistics_tree(
+  typename std::iterator_traits<RandomIt>::value_type first,
+  typename std::iterator_traits<RandomIt>::value_type last,
+  RandomIt                                            ranks_first,
+  RandomIt                                            ranks_last,
+  Compare                                             comp)
+{
+  if (first == last) {
+    // tree is empty
+    return;
+  }
+
+  if (ranks_first == ranks_last) {
+    // No ranks given.
+    push_mm_heap(first, last, comp);
+    return;
+  }
+
+  const auto& s{*(last - 1)};
+
+  auto rank{ranks_first};
+  if (comp(*s, **rank)) {
+    // Enter the item before V[1]
+    push_order_statistics_tree_impl(first,
+                                    first,
+                                    last,
+                                    ranks_first,
+                                    ranks_last,
+                                    comp);
+  }
+  else {
+    while (++rank != ranks_last) {
+      if (comp(*s, **rank)) {
+        push_order_statistics_tree_impl(*(rank - 1),
+                                        first,
+                                        last,
+                                        ranks_first,
+                                        ranks_last,
+                                        comp);
+        return;
+      }
+    }
+  }
+
+  // Enter the item after V[m]
+  push_order_statistics_tree_impl(*(rank - 1),
+                                  first,
+                                  last,
+                                  ranks_first,
+                                  ranks_last,
+                                  comp);
+}
+
+template<typename RandomIt, typename Compare>
 void push_order_statistics_tree(
   typename std::iterator_traits<RandomIt>::value_type first,
   typename std::iterator_traits<RandomIt>::value_type last,
   RandomIt                                            ranks_first,
   RandomIt                                            ranks_last)
 {
-  if (first != last) {
-    for (auto rank{ranks_first}; rank != ranks_last; ++rank) {
-      if (std::next(rank) != ranks_last) {
-        if (**rank <= *(last - 1) && *(last - 1) < **std::next(rank)) {
-        }
-      }
-      else {
-        push_mm_heap(*rank, last);
-      }
-    }
-  }
+  push_order_statistics_tree(first, last, ranks_first, ranks_last, std::less<>{});
 }
 
 }

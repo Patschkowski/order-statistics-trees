@@ -109,7 +109,7 @@ std::for_each(begin(container), ranks[0], ...);
 
 ### Implementation Details
 
-Conceptually, an order statistics tree is a hybrid data structure that features one vector *V\[1..m]* holding the elements of rank *k_i* and multiple min-max heaps *H_0*, ..., *H_m* where *H_i* holds the elements *V\[i]* and *V\[i+1]* with *V\[0] = -inf* and *V\[m+1] = +inf*.
+Conceptually, an order statistics tree is a hybrid data structure that features one vector *V\[1..m]* holding the elements of rank *k_i* and multiple min-max heaps *H_0*, ..., *H_m* where *H_i* holds the elements between *V\[i]* and *V\[i+1]* with *V\[0] = -inf* and *V\[m+1] = +inf*.
 
 To construct the min-max heaps, the `order_statistics::make_mm_heap` functions are used. To find the *V\[i]* the function `std::nth_element` is used. The min-max heaps are already flat data structures, the elements *V\[i]* are just placed in between those memory sequences.
 
